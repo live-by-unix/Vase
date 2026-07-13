@@ -111,8 +111,15 @@ function injectOverlay(domain, type, downtimeEnd = null) {
 function extractDomain(url) {
   try {
     const u = new URL(url);
-    return u.hostname.replace("www.", "");
+    let domain = u.hostname.toLowerCase();
+
+    // Normalize only if "www." is present
+    if (domain.startsWith("www.")) {
+      domain = domain.slice(4);
+    }
+
+    return domain;
   } catch {
-    return url;
+    return null;
   }
 }
