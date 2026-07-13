@@ -4,16 +4,17 @@
   "description": "A calm Chrome extension that enforces website time limits and downtime rules.",
   "version": "1.0.0",
   "icons": {
-    "16": "icons/vase16.png",
-    "48": "icons/vase48.png",
-    "128": "icons/vase128.png"
+    "16": "vase16.png",
+    "48": "vase48.png",
+    "128": "vase128.png",
+    "256": "vase256.png"
   },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icons/vase16.png",
-      "48": "icons/vase48.png",
-      "128": "icons/vase128.png"
+      "16": "vase16.png",
+      "48": "vase48.png",
+      "128": "vase128.png"
     }
   },
   "options_page": "options.html",
