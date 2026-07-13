@@ -1,0 +1,35 @@
+#vase-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: system-ui, sans-serif;
+}
+
+#vase-overlay img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  animation: breathe 3s infinite;
+}
+
+#vase-overlay p {
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+  max-width: 400px;
+  line-height: 1.4;
+}
+
+@keyframes breathe {
+  0% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
