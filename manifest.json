@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Vase",
+  "description": "A calm Chrome extension that enforces website time limits and downtime rules.",
+  "version": "1.0.0",
+  "icons": {
+    "16": "vase.png",
+    "48": "vase.png",
+    "128": "vase.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "vase.png",
+      "48": "vase.png",
+      "128": "vase.png"
+    }
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
