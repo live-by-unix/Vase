@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Configure Vase</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div id="options-container">
+    <h1>Configure Vase</h1>
+
+    <section>
+      <h2>Websites</h2>
+      <input type="text" id="website-input" placeholder="Enter website (e.g. youtube.com)">
+      <button id="add-website">Add Website</button>
+      <ul id="website-list"></ul>
+    </section>
+
+    <section>
+      <h2>Time Limits</h2>
+      <label>Minutes per day: <input type="number" id="daily-limit" min="1"></label>
+      <label>Reset time (HH:MM): <input type="time" id="reset-time"></label>
+    </section>
+
+    <section>
+      <h2>Downtime</h2>
+      <label>Start: <input type="time" id="downtime-start"></label>
+      <label>End: <input type="time" id="downtime-end"></label>
+    </section>
+
+    <button id="save-settings">Save Settings</button>
+    <p id="status"></p>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>
