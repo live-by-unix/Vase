@@ -1,49 +1,50 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const websiteInput = document.getElementById("website-input");
-  const addWebsiteBtn = document.getElementById("add-website");
-  const websiteList = document.getElementById("website-list");
-  const saveBtn = document.getElementById("save-settings");
-  const status = document.getElementById("status");
+  const websiteList = document.getElementById("websiteList");
+  const addButton = document.getElementById("addWebsite");
 
-  // Load saved settings
-  chrome.storage.sync.get(["websites", "dailyLimit", "resetTime", "downtime"], (data) => {
-    if (data.websites) {
-      data.websites.forEach(site => addWebsiteToList(site));
-    }
-    if (data.dailyLimit) document.getElementById("daily-limit").value = data.dailyLimit;
-    if (data.resetTime) document.getElementById("reset-time").value = data.resetTime;
-    if (data.downtime) {
-      document.getElementById("downtime-start").value = data.downtime.start;
-      document.getElementById("downtime-end").value = data.downtime.end;
-    }
+  // Load existing websites
+  chrome.storage.sync.get(["websites"], data => {
+    const websites = data.websites || [];
+    websites.forEach(domain => addWebsiteRow(domain));
   });
 
-  addWebsiteBtn.addEventListener("click", () => {
-    const site = websiteInput.value.trim();
-    if (site) {
-      addWebsiteToList(site);
-      websiteInput.value = "";
-    }
-  });
+  // Add new website
+  addButton.addEventListener("click", () => {
+    const input = document.getElementById("websiteInput");
+    const domain = input.value.trim();
+    if (!domain) return;
 
-  saveBtn.addEventListener("click", () => {
-    const websites = Array.from(websiteList.querySelectorAll("li")).map(li => li.textContent);
-    const dailyLimit = document.getElementById("daily-limit").value;
-    const resetTime = document.getElementById("reset-time").value;
-    const downtime = {
-      start: document.getElementById("downtime-start").value,
-      end: document.getElementById("downtime-end").value
-    };
-
-    chrome.storage.sync.set({ websites, dailyLimit, resetTime, downtime }, () => {
-      status.textContent = "Settings saved!";
-      setTimeout(() => status.textContent = "", 2000);
+    chrome.storage.sync.get(["websites"], data => {
+      const websites = data.websites || [];
+      if (!websites.includes(domain)) {
+        websites.push(domain);
+        chrome.storage.sync.set({ websites }, () => {
+          addWebsiteRow(domain);
+          input.value = "";
+        });
+      }
     });
   });
 
-  function addWebsiteToList(site) {
-    const li = document.createElement("li");
-    li.textContent = site;
-    websiteList.appendChild(li);
+  // Helper: add row with remove button
+  function addWebsiteRow(domain) {
+    const row = document.createElement("li");
+    row.textContent = domain;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.style.marginLeft = "10px";
+    removeBtn.addEventListener("click", () => {
+      chrome.storage.sync.get(["websites"], data => {
+        let websites = data.websites || [];
+        websites = websites.filter(d => d !== domain);
+        chrome.storage.sync.set({ websites }, () => {
+          row.remove();
+        });
+      });
+    });
+
+    row.appendChild(removeBtn);
+    websiteList.appendChild(row);
   }
 });
